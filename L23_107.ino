@@ -35,16 +35,16 @@ const short UserID=3;
 
 
 #ifdef _ip_adr 
-IPAddress local_IP(192, 168, 1, 103);// Задаем статический IP-адрес:
+IPAddress local_IP(192, 168, 1, 104);// Задаем статический IP-адрес:
 //String weatherHost0 = "15.235.118.222";  //надо 158.69.116.36
 String weatherHost0 = "api.weatherbit.io";
 #else 
 IPAddress local_IP(192, 168, 1, 103);// Задаем статический IP-адрес:
 String weatherHost0 = "128.140.48.82";  //надо 158.69.116.36
 #endif
-IPAddress gateway(192, 168, 1, 199);// Задаем IP-адрес сетевого шлюза:
+IPAddress gateway(192, 168, 1, 41);// Задаем IP-адрес сетевого шлюза:
 IPAddress subnet(255, 255, 255, 0);
-IPAddress primaryDNS(192, 168, 1, 199);   // опционально
+IPAddress primaryDNS(192, 168, 1, 41);   // опционально
 IPAddress secondaryDNS(8, 8, 8, 8); // опционально
 
 //#include <HTTPClient.h>
