@@ -43,16 +43,16 @@ IRsend irsend(kIrLed);
 
 
 #ifdef _ip_adr 
-IPAddress local_IP(192, 168, 1, 104);// Задаем статический IP-адрес:
+IPAddress local_IP(192, 168, 1, 102);// Задаем статический IP-адрес:
 //String weatherHost0 = "15.235.118.222";  //надо 158.69.116.36
 String weatherHost0 = "api.weatherbit.io";
 #else 
 IPAddress local_IP(192, 168, 1, 103);// Задаем статический IP-адрес:
 String weatherHost0 = "128.140.48.82";  //надо 158.69.116.36
 #endif
-IPAddress gateway(192, 168, 1, 41);// Задаем IP-адрес сетевого шлюза:
+IPAddress gateway(192, 168, 1, 199);// Задаем IP-адрес сетевого шлюза:
 IPAddress subnet(255, 255, 255, 0);
-IPAddress primaryDNS(192, 168, 1, 41);   // опционально
+IPAddress primaryDNS(192, 168, 1, 199);   // опционально
 IPAddress secondaryDNS(8, 8, 8, 8); // опционально
 
 //#include <HTTPClient.h>
@@ -574,12 +574,19 @@ void loop() {
    //Serial.print(String(secFr)); 
   //------------- НАШ ЧАС ----------------------nach------------------------------------------
  // if (hour == 0 && minute == 51) {     bip();       /*printStringWithShift(("       22:55 \200\200\200 " + tMes + " \200\200\200").c_str(), timeScrollSpeed);     return;*/  }
- if (hour == 6 && minute == 10 ){if (one_fl==0) {one_fl=1;}      }  else  {one_fl=0;}    /*printStringWithShift(("       22:55 \200\200\200 " + tMes + " \200\200\200").c_str(), timeScrollSpeed);     return;*/ 
- if (hour == 6 && minute == 20 ){if (one_f2==0) {one_f2=1;}      }  else  {one_f2=0;}
- if (hour == 6 && minute == 25 ){if (one_f3==0) {one_f3=1;}      }  else  {one_f3=0;}
- if (hour == 6 && minute == 30 ){if (one_f4==0) {one_f4=1;}      }  else  {one_f4=0;}
  
- if (hour == 21 && minute ==5  ){if (ir_flag==0) {ir_flag=1; irsend.sendRaw(rawData_sleep, 71, 38);      delay(500);  irsend.sendRaw(rawData_sleep, 71, 38);      delay(500);}      }  else  {ir_flag=0;}
+ //if (hour == 6 && minute == 10 ){if (one_fl==0) {one_fl=1;}      }  else  {one_fl=0;}    /*printStringWithShift(("       22:55 \200\200\200 " + tMes + " \200\200\200").c_str(), timeScrollSpeed);     return;*/ 
+// if (hour == 6 && minute == 20 ){if (one_f2==0) {one_f2=1;}      }  else  {one_f2=0;}
+ //if (hour == 6 && minute == 25 ){if (one_f3==0) {one_f3=1;}      }  else  {one_f3=0;}
+ //if (hour == 6 && minute == 30 ){if (one_f4==0) {one_f4=1;}      }  else  {one_f4=0;}
+ 
+ if (hour==21 && minute==53)  
+ {
+    if (ir_flag==0) 
+    {   
+        ir_flag=1; irsend.sendRaw(rawData_sleep,71,38); delay(300); irsend.sendRaw(rawData_sleep,71,38); delay(300); irsend.sendRaw(rawData_sleep,71,38);delay(300);irsend.sendRaw(rawData_sleep, 71, 38); delay(300);
+    }    
+    }  else  {ir_flag=0;}
 
  // if (minute % 5 == 1) {if ( pred_dav!=pressBmp) {if (pressBmp>pred_dav){nask_dav=int(pressBmp-pred_dav); dav_pov=1;} else {dav_pov=0; nask_dav=int(pred_dav-pressBmp);} pred_dav=pressBmp;}}
  
