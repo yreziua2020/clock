@@ -10,6 +10,14 @@ const short UserID=3;
 //#include <BH1750.h>
 #include <WiFiClient.h>
 #include <Wire.h>
+
+#include <IRremoteESP8266.h>
+#include <IRsend.h>
+int16_t ir_flag=1; // переменаю для работы с пультом
+uint16_t rawData_sleep[71] = {9050, 4438,  634, 1616,  632, 488,  632, 488,  632, 488,  628, 492,  628, 492,  628, 488,  634, 488,  628, 492,  628, 1614,  628, 1616,  632, 1614,  632, 1610,  632, 1614,  632, 1614,  634, 1614,  628, 492,  628, 1614,  632, 488,  632, 488,  632, 488,  632, 488,  628, 1614,  632, 488,  628, 1616,  632, 488,  632, 1610,  634, 1614,  632, 1610,  632, 1616,  632, 488,  634, 1606,  632, 40014,  9054, 2172,  634};  // NEC 807F42BD
+const uint16_t kIrLed = 12; //ПИН ИК передатчика 16
+IRsend irsend(kIrLed);
+
 #ifdef ESP32
     #include "FS.h"   //??? думал дир
     #include "SPIFFS.h" // Needed for ESP32 only
@@ -570,6 +578,9 @@ void loop() {
  if (hour == 6 && minute == 20 ){if (one_f2==0) {one_f2=1;}      }  else  {one_f2=0;}
  if (hour == 6 && minute == 25 ){if (one_f3==0) {one_f3=1;}      }  else  {one_f3=0;}
  if (hour == 6 && minute == 30 ){if (one_f4==0) {one_f4=1;}      }  else  {one_f4=0;}
+ 
+ if (hour == 21 && minute ==5  ){if (ir_flag==0) {ir_flag=1; irsend.sendRaw(rawData_sleep, 71, 38);      delay(500);  irsend.sendRaw(rawData_sleep, 71, 38);      delay(500);}      }  else  {ir_flag=0;}
+
  // if (minute % 5 == 1) {if ( pred_dav!=pressBmp) {if (pressBmp>pred_dav){nask_dav=int(pressBmp-pred_dav); dav_pov=1;} else {dav_pov=0; nask_dav=int(pred_dav-pressBmp);} pred_dav=pressBmp;}}
  
   // -------------------------------------------------------------------- ВИВІД НА ЕКРАН ГОДИННИКА АБО ТЕМПЕРАТУРИ ЧИ ВОЛОГОСТІ-------------------------------daf-----------------------------------------------------------------------------

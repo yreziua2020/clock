@@ -84,7 +84,9 @@ for (int i = 0; i < 16; i++) {
 //kurs_s= "USD buy=";
  // delay(1000);
   //  kurs();
-  Serial.println("Start 13");
+  Serial.println("Start 14");
   //randomSeed(analogRead(0));
    //Serial.println("analogRead="); Serial.println(analogRead(brightPin));
+  irsend.begin();  // Инициализируем ИК передатчик
+
 }
