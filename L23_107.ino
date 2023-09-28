@@ -61,7 +61,7 @@ IPAddress secondaryDNS(8, 8, 8, 8); // опционально
 //#include <DFPlayer_Mini_Mp3.h>
 //SoftwareSerial mp3_com(0, 12); // RX, TX  5,4
 //#define MP3_PIN   16
-#define gromk 17 //17//11  //9
+#define gromk 19 //17//11  //9
 #define gromk2 0  //насколько увеличить громкость
 static uint32_t myTimer_pl;
 static uint8_t i_bat ;
