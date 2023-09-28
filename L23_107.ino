@@ -79,7 +79,7 @@ static uint8_t i_bat ;
 #define DIN_PIN   13                                                                    //GPIO 13 / D7
 #define CS_PIN    15                                                                    //GPIO 15 / D8
 #define CLK_PIN   14                                                                    //GPIO 14 / D5
-//#define buzzerPin 12                                                                    //GPIO 12 / D6
+//#define buzzerPin 12            пустой будет пуль                                                         //GPIO 12 / D6
 #include "fonts.h" 
 
 WiFiClient ESPclient;
@@ -243,7 +243,7 @@ byte timeScrollSpeed = 50;
 
 
 bool buzzerSet = 0;   //Бузер активный или пасивный 0 пасивный
-#define brightPin A0
+//#define brightPin A0
 OneWire  ds(0); //   0                                                                     // DS18B20 подключен к 10 пину (резистор на 4.7к обязателен)
 int pinDHT = 2;
 SimpleDHT11 dht11;
@@ -520,7 +520,7 @@ void loop() {
  if (second != lastSecond) 
  {                                                           
     lastSecond = second;      //елсли регулеровка включена автоматически то оправляем яркость в зависимости от освечения  иначе если ЧАС больше дневного и Меньше Ночного часма то оправляем яркость дненую, инач яркость ночную
-    if (volBrightnessAuto) { levelBridhtness=map(analogRead(brightPin),1023,0,2,15); sendCmdAll(CMD_INTENSITY, levelBridhtness);} else {if (hour>=timeDay && hour<timeNight) sendCmdAll(CMD_INTENSITY, volBrightnessD);  else sendCmdAll(CMD_INTENSITY, volBrightnessN);  }
+    if (volBrightnessAuto) { /*levelBridhtness=map(analogRead(brightPin),1023,0,2,15);*/ sendCmdAll(CMD_INTENSITY, levelBridhtness);} else {if (hour>=timeDay && hour<timeNight) sendCmdAll(CMD_INTENSITY, volBrightnessD);  else sendCmdAll(CMD_INTENSITY, volBrightnessN);  }
  
    secFr = 0;// на початку нової секунди скидаємо secFr в "0"
 

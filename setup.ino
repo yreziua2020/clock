@@ -85,6 +85,6 @@ for (int i = 0; i < 16; i++) {
  // delay(1000);
   //  kurs();
   Serial.println("Start 13");
-  randomSeed(analogRead(brightPin));
-   Serial.println("analogRead="); Serial.println(analogRead(brightPin));
+  //randomSeed(analogRead(0));
+   //Serial.println("analogRead="); Serial.println(analogRead(brightPin));
 }
