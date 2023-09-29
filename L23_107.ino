@@ -16,7 +16,7 @@ const short UserID=3;
 int16_t ir_flag1,ir_flag2; // переменаю для работы с пультом
 uint16_t rawData_sleep[71] = {9050, 4438,  634, 1616,  632, 488,  632, 488,  632, 488,  628, 492,  628, 492,  628, 488,  634, 488,  628, 492,  628, 1614,  628, 1616,  632, 1614,  632, 1610,  632, 1614,  632, 1614,  634, 1614,  628, 492,  628, 1614,  632, 488,  632, 488,  632, 488,  632, 488,  628, 1614,  632, 488,  628, 1616,  632, 488,  632, 1610,  634, 1614,  632, 1610,  632, 1616,  632, 488,  634, 1606,  632, 40014,  9054, 2172,  634};  // NEC 807F42BD
 uint16_t rawData_on_off[71] = {9046, 4436,  634, 1614,  634, 488,  628, 494,  628, 494,  628, 488,  632, 488,  628, 492,  656, 460,  628, 492,  628, 1610,  632, 1616,  628, 1614,  628, 1614,  632, 1616,  630, 1612,  632, 1616,  628, 1616,  632, 1614,  628, 494,  626, 494,  628, 1610,  632, 490,  632, 1610,  634, 488,  632, 488,  628, 494,  628, 1616,  628, 1616,  628, 494,  628, 1614,  628, 492,  628, 1610,  628, 40006,  9050, 2174,  628};  // NEC 807FCA35
-const uint16_t kIrLed = 12; //ПИН ИК передатчика 16
+const uint16_t kIrLed = 16; //ПИН ИК передатчика 16
 IRsend irsend(kIrLed);
 
 #ifdef ESP32
@@ -44,7 +44,7 @@ IRsend irsend(kIrLed);
 
 
 #ifdef _ip_adr 
-IPAddress local_IP(192, 168, 1, 103);// Задаем статический IP-адрес:
+IPAddress local_IP(192, 168, 1, 102);// Задаем статический IP-адрес:
 //String weatherHost0 = "15.235.118.222";  //надо 158.69.116.36
 String weatherHost0 = "api.weatherbit.io";
 #else 
@@ -576,18 +576,19 @@ void loop() {
   //------------- НАШ ЧАС ----------------------nach------------------------------------------
  // if (hour == 0 && minute == 51) {     bip();       /*printStringWithShift(("       22:55 \200\200\200 " + tMes + " \200\200\200").c_str(), timeScrollSpeed);     return;*/  }
  
- if (hour == 6 && minute == 10 ){if (one_fl==0) {one_fl=1;}      }  else  {one_fl=0;}    /*printStringWithShift(("       22:55 \200\200\200 " + tMes + " \200\200\200").c_str(), timeScrollSpeed);     return;*/ 
- if (hour == 6 && minute == 20 ){if (one_f2==0) {one_f2=1;}      }  else  {one_f2=0;}
- if (hour == 6 && minute == 25 ){if (one_f3==0) {one_f3=1;}      }  else  {one_f3=0;}
- if (hour == 6 && minute == 30 ){if (one_f4==0) {one_f4=1;}      }  else  {one_f4=0;}
+ //if (hour == 6 && minute == 10 ){if (one_fl==0) {one_fl=1;}      }  else  {one_fl=0;}    /*printStringWithShift(("       22:55 \200\200\200 " + tMes + " \200\200\200").c_str(), timeScrollSpeed);     return;*/ 
+ //if (hour == 6 && minute == 20 ){if (one_f2==0) {one_f2=1;}      }  else  {one_f2=0;}
+ //if (hour == 6 && minute == 25 ){if (one_f3==0) {one_f3=1;}      }  else  {one_f3=0;}
+ //if (hour == 6 && minute == 30 ){if (one_f4==0) {one_f4=1;}      }  else  {one_f4=0;}
  
- if (hour==23 && minute==5)  
+ if (hour==22 && minute==31)  
  {
     if (ir_flag1==0) 
     {   
         ir_flag1=1;
-       //irsend.sendRaw(rawData_sleep,71,38); delay(300); irsend.sendRaw(rawData_sleep,71,38); delay(300); irsend.sendRaw(rawData_sleep,71,38);delay(300);irsend.sendRaw(rawData_sleep, 71, 38); delay(300);
-      irsend.sendRaw(rawData_on_off,71,38); 
+       irsend.sendRaw(rawData_sleep,71,38); delay(400); irsend.sendRaw(rawData_sleep,71,38); delay(400); irsend.sendRaw(rawData_sleep,71,38);delay(400);irsend.sendRaw(rawData_sleep, 71, 38);delay(400);
+       irsend.sendRaw(rawData_sleep, 71, 38); delay(400);irsend.sendRaw(rawData_sleep, 71, 38); delay(400);irsend.sendRaw(rawData_sleep, 71, 38); delay(400);irsend.sendRaw(rawData_sleep, 71, 38); delay(400);
+      //irsend.sendRaw(rawData_on_off,71,38); 
     }    
     }  else  {ir_flag1=0;}
 
@@ -597,7 +598,7 @@ void loop() {
     {   
         ir_flag2=1; 
       //irsend.sendRaw(rawData_sleep,71,38); delay(300); irsend.sendRaw(rawData_sleep,71,38); delay(300); irsend.sendRaw(rawData_sleep,71,38);delay(300);irsend.sendRaw(rawData_sleep, 71, 38); delay(300);
-      irsend.sendRaw(rawData_on_off,71,38); 
+     // irsend.sendRaw(rawData_on_off,71,38); 
     }    
     }  else  {ir_flag2=0;}
 
