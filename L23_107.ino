@@ -606,22 +606,14 @@ void loop() {
   //------------- НАШ ЧАС ----------------------nach------------------------------------------
  // if (hour == 0 && minute == 51) {     bip();       /*printStringWithShift(("       22:55 \200\200\200 " + tMes + " \200\200\200").c_str(), timeScrollSpeed);     return;*/  }
  
- //if (hour == 6 && minute == 10 ){if (one_fl==0) {one_fl=1;}      }  else  {one_fl=0;}    /*printStringWithShift(("       22:55 \200\200\200 " + tMes + " \200\200\200").c_str(), timeScrollSpeed);     return;*/ 
- //if (hour == 6 && minute == 20 ){if (one_f2==0) {one_f2=1;}      }  else  {one_f2=0;}
- //if (hour == 6 && minute == 25 ){if (one_f3==0) {one_f3=1;}      }  else  {one_f3=0;}
- //if (hour == 6 && minute == 30 ){if (one_f4==0) {one_f4=1;}      }  else  {one_f4=0;}
- 
- if (hour==22 && minute==36)  
- {
-    if (ir_flag1==0) 
-    {   
-        ir_flag1=1;
-       irsend.sendRaw(rawData_sleep,71,38); delay(200); irsend.sendRaw(rawData_sleep,71,38); delay(200); irsend.sendRaw(rawData_sleep,71,38);delay(200);irsend.sendRaw(rawData_sleep, 71, 38);delay(200);
-       irsend.sendRaw(rawData_sleep, 71, 38); delay(200);irsend.sendRaw(rawData_sleep, 71, 38); //delay(200);irsend.sendRaw(rawData_sleep, 71, 38); //delay(400);
-      //irsend.sendRaw(rawData_on_off,71,38); 
-    }    
-    }  else  {ir_flag1=0;}
+ if (_ipad==103) {
+    if (hour == 6 && minute == 10 ){if (one_fl==0) {one_fl=1;}      }  else  {one_fl=0;}    /*printStringWithShift(("       22:55 \200\200\200 " + tMes + " \200\200\200").c_str(), timeScrollSpeed);     return;*/ 
+    if (hour == 6 && minute == 20 ){if (one_f2==0) {one_f2=1;}      }  else  {one_f2=0;}
+    if (hour == 6 && minute == 25 ){if (one_f3==0) {one_f3=1;}      }  else  {one_f3=0;}
+    if (hour == 6 && minute == 30 ){if (one_f4==0) {one_f4=1;}      }  else  {one_f4=0;}
+  }
 
+ if (_ipad==102) {
  if (hour==6 && minute==5)  
  {
     if (ir_flag2==0) 
@@ -631,7 +623,7 @@ void loop() {
      // irsend.sendRaw(rawData_on_off,71,38); 
     }    
     }  else  {ir_flag2=0;}
-
+ }
  
  
  // if (minute % 5 == 1) {if ( pred_dav!=pressBmp) {if (pressBmp>pred_dav){nask_dav=int(pressBmp-pred_dav); dav_pov=1;} else {dav_pov=0; nask_dav=int(pred_dav-pressBmp);} pred_dav=pressBmp;}}
