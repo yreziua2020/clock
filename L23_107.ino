@@ -581,13 +581,13 @@ void loop() {
  //if (hour == 6 && minute == 25 ){if (one_f3==0) {one_f3=1;}      }  else  {one_f3=0;}
  //if (hour == 6 && minute == 30 ){if (one_f4==0) {one_f4=1;}      }  else  {one_f4=0;}
  
- if (hour==22 && minute==31)  
+ if (hour==22 && minute==36)  
  {
     if (ir_flag1==0) 
     {   
         ir_flag1=1;
-       irsend.sendRaw(rawData_sleep,71,38); delay(400); irsend.sendRaw(rawData_sleep,71,38); delay(400); irsend.sendRaw(rawData_sleep,71,38);delay(400);irsend.sendRaw(rawData_sleep, 71, 38);delay(400);
-       irsend.sendRaw(rawData_sleep, 71, 38); delay(400);irsend.sendRaw(rawData_sleep, 71, 38); delay(400);irsend.sendRaw(rawData_sleep, 71, 38); delay(400);irsend.sendRaw(rawData_sleep, 71, 38); delay(400);
+       irsend.sendRaw(rawData_sleep,71,38); delay(200); irsend.sendRaw(rawData_sleep,71,38); delay(200); irsend.sendRaw(rawData_sleep,71,38);delay(200);irsend.sendRaw(rawData_sleep, 71, 38);delay(200);
+       irsend.sendRaw(rawData_sleep, 71, 38); delay(200);irsend.sendRaw(rawData_sleep, 71, 38); //delay(200);irsend.sendRaw(rawData_sleep, 71, 38); //delay(400);
       //irsend.sendRaw(rawData_on_off,71,38); 
     }    
     }  else  {ir_flag1=0;}

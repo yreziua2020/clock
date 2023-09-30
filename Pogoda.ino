@@ -8,10 +8,11 @@ void getWeatherData0() {
   //****//
   
    WiFi.hostByName(weatherHost0.c_str(), pogodaIP);
-   Serial.print("pogodaIP ="); Serial.println(pogodaIP); 
+  // if(WiFi.hostByName(weatherHost0.c_str(), pogodaIP)){printStringWithShift("ok ", 25);} else  {printStringWithShift("no ", 25);} 
+   //Serial.print("pogodaIP ="); Serial.println(pogodaIP); 
   //if (ESPclient.connect(weatherHost0.c_str(), 80)) {
   if (ESPclient.connect(pogodaIP, 80)) {//Serial.println("conect yas");
-  } else { if (printCom) Serial.println("          Not connection server!!!"); updateForecast++;  if (updateForecast >= 360) weatherString = tWeatrNot;   return;  }
+  } else {  if (printCom) Serial.println("          Not connection server!!!"); updateForecast++;  if (updateForecast >= 360) weatherString = tWeatrNot;   return;  }
 
   HTTPClient http;
   String line = "";  String reqline = "http://" + weatherHost0 + "/v2.0/current/daily?city=" + urlencode(cityID0) + "&lang=" + weatherLang + "&key=" + weatherKey0;
@@ -20,16 +21,27 @@ void getWeatherData0() {
   { // HTTP
     int httpCode = http.GET();
     if (httpCode > 0) 
-    {  if (printCom) {Serial.printf("[HTTP] GET... code: %d\n", httpCode);}  if (httpCode == HTTP_CODE_OK || httpCode == HTTP_CODE_MOVED_PERMANENTLY) {  line = http.getString();  }
-    } else     {  if (printCom){Serial.printf("[HTTP] GET... failed, error: %s\n", http.errorToString(httpCode).c_str());}    }
+    {  //printStringWithShift("Yes2 ", 25); 
+      if (printCom) {Serial.printf("[HTTP] GET... code: %d\n", httpCode);}  if (httpCode == HTTP_CODE_OK || httpCode == HTTP_CODE_MOVED_PERMANENTLY) {  line = http.getString();  }
+    } else
+    {  //printStringWithShift("No2 ", 25); 
+       if (printCom){Serial.printf("[HTTP] GET... failed, error: %s\n", http.errorToString(httpCode).c_str());}    
+    }
     http.end();
-  } else   { if (printCom){ Serial.printf("[HTTP} Unable to connect\n");}  }
+    //printStringWithShift("Yes ", 25); 
+  } 
+  else   
+  { 
+      if (printCom){ Serial.printf("[HTTP} Unable to connect\n");}  
+      //printStringWithShift("No ", 25); 
+  }
+  
   if (printCom) { Serial.print("line ="); Serial.println(line);  }
   
   const size_t capacity = JSON_ARRAY_SIZE(1) + JSON_OBJECT_SIZE(2) + JSON_OBJECT_SIZE(3) + JSON_OBJECT_SIZE(37) + 1128; //https://arduinojson.org/v6/assistant/
   DynamicJsonDocument doc(capacity);
   deserializeJson(doc, line);
-  if (!doc.capacity()) {  if (printCom) Serial.println("          Parse weather forecast - FAILED!!!"); updateForecast++; if (updateForecast >= 360) weatherString = tWeatrNot;  return;  }
+  if (!doc.capacity()) {  printStringWithShift("No123 ", 25);  if (printCom) Serial.println("          Parse weather forecast - FAILED!!!"); updateForecast++; if (updateForecast >= 360) weatherString = tWeatrNot;  return;  }
   JsonObject data = doc["data"][0];
   location_rh = data["rh"];                       //Влажность   
   location_pres = data["pres"];                    //давление 999.3
