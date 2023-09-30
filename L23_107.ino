@@ -40,13 +40,24 @@ IRsend irsend(kIrLed);
 #endif
 
 #define _ZVUK    //чтобы звук отключить закоментровать
-#define _ip_adr     //без коментарии 102 если закоментировать то 103
+#define _ip_adr=1     //без коментарии 102 если закоментировать то 103
 
 
-#ifdef _ip_adr 
+#ifdef _ip_adr==1
 IPAddress local_IP(192, 168, 1, 104);// Задаем статический IP-адрес:
 //String weatherHost0 = "15.235.118.222";  //надо 158.69.116.36
 String weatherHost0 = "api.weatherbit.io";
+#endif
+#ifdef _ip_adr==2
+IPAddress local_IP(192, 168, 1, 104);// Задаем статический IP-адрес:
+//String weatherHost0 = "15.235.118.222";  //надо 158.69.116.36
+String weatherHost0 = "api.weatherbit.io";
+#endif
+#ifdef _ip_adr==3
+IPAddress local_IP(192, 168, 1, 104);// Задаем статический IP-адрес:
+//String weatherHost0 = "15.235.118.222";  //надо 158.69.116.36
+String weatherHost0 = "api.weatherbit.io";
+#endif
 #else 
 IPAddress local_IP(192, 168, 1, 103);// Задаем статический IP-адрес:
 String weatherHost0 = "128.140.48.82";  //надо 158.69.116.36
