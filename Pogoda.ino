@@ -41,7 +41,7 @@ void getWeatherData0() {
   const size_t capacity = JSON_ARRAY_SIZE(1) + JSON_OBJECT_SIZE(2) + JSON_OBJECT_SIZE(3) + JSON_OBJECT_SIZE(37) + 1128; //https://arduinojson.org/v6/assistant/
   DynamicJsonDocument doc(capacity);
   deserializeJson(doc, line);
-  if (!doc.capacity()) {  printStringWithShift("No123 ", 25);  if (printCom) Serial.println("          Parse weather forecast - FAILED!!!"); updateForecast++; if (updateForecast >= 360) weatherString = tWeatrNot;  return;  }
+  if (!doc.capacity()) {   if (printCom) Serial.println("          Parse weather forecast - FAILED!!!"); updateForecast++; if (updateForecast >= 360) weatherString = tWeatrNot;  return;  }
   JsonObject data = doc["data"][0];
   location_rh = data["rh"];                       //Влажность   
   location_pres = data["pres"];                    //давление 999.3
@@ -54,6 +54,7 @@ void getWeatherData0() {
     String wr_pog= "Давление"+String(location_pres);  printStringWithShift(wr_pog.c_str(), 25);
     String wr_pog2=String(weatherKey0);   printStringWithShift(wr_pog2.c_str(), 25);  
     delay(1000);
+    Serial.println("          Parse weather forecast - FAILED!!!"); updateForecast++; if (updateForecast >= 360) weatherString = tWeatrNot;  return; 
   }
   /////if (pressSys == 1) location_pres /= 1.3332239; //если флаг установлен то делим давление чтобы разных измирениях выводить
   location_pres /= 1.3332239; //временно чтобы при преключении не мнялся вывод
