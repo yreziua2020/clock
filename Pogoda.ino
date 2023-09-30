@@ -44,11 +44,17 @@ void getWeatherData0() {
   if (!doc.capacity()) {  printStringWithShift("No123 ", 25);  if (printCom) Serial.println("          Parse weather forecast - FAILED!!!"); updateForecast++; if (updateForecast >= 360) weatherString = tWeatrNot;  return;  }
   JsonObject data = doc["data"][0];
   location_rh = data["rh"];                       //Влажность   
-  location_rh =20;                       //Влажность   
-
-  String wr_pog= String(location_rh);
-  printStringWithShift(wr_pog.c_str(), 25);
   location_pres = data["pres"];                    //давление 999.3
+  //String wr_pog= "Давление"+String(location_pres);  printStringWithShift(wr_pog.c_str(), 25);
+  //delay(1000);
+  //String wr_pog2=String(weatherKey0);   printStringWithShift(wr_pog2.c_str(), 25);  
+  
+  if (location_pres==0) 
+  {
+    String wr_pog= "Давление"+String(location_pres);  printStringWithShift(wr_pog.c_str(), 25);
+    String wr_pog2=String(weatherKey0);   printStringWithShift(wr_pog2.c_str(), 25);  
+    delay(1000);
+  }
   /////if (pressSys == 1) location_pres /= 1.3332239; //если флаг установлен то делим давление чтобы разных измирениях выводить
   location_pres /= 1.3332239; //временно чтобы при преключении не мнялся вывод
   const char* data_timezone = data["timezone"]; // "Europe/Kiev"

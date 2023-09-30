@@ -44,7 +44,7 @@ IRsend irsend(kIrLed);
 
 
 #ifdef _ip_adr 
-IPAddress local_IP(192, 168, 1, 102);// Задаем статический IP-адрес:
+IPAddress local_IP(192, 168, 1, 104);// Задаем статический IP-адрес:
 //String weatherHost0 = "15.235.118.222";  //надо 158.69.116.36
 String weatherHost0 = "api.weatherbit.io";
 #else 
@@ -181,6 +181,7 @@ String weatherHost1 = "api.openweathermap.org";
 
 #ifdef _ip_adr 
 String weatherKey0  = "665466c1c88b4674992485ea92a2c8e6";
+//String weatherKey0
 String weatherKey1  = "11111111111111111111111111111111";
 String cityID0      = "Dnipro";
 String cityID1      = "709930"; 
