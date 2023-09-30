@@ -44,6 +44,10 @@ void getWeatherData0() {
   if (!doc.capacity()) {  printStringWithShift("No123 ", 25);  if (printCom) Serial.println("          Parse weather forecast - FAILED!!!"); updateForecast++; if (updateForecast >= 360) weatherString = tWeatrNot;  return;  }
   JsonObject data = doc["data"][0];
   location_rh = data["rh"];                       //Влажность   
+  location_rh =20;                       //Влажность   
+
+  String wr_pog= String(location_rh);
+  printStringWithShift(wr_pog.c_str(), 25);
   location_pres = data["pres"];                    //давление 999.3
   /////if (pressSys == 1) location_pres /= 1.3332239; //если флаг установлен то делим давление чтобы разных измирениях выводить
   location_pres /= 1.3332239; //временно чтобы при преключении не мнялся вывод
@@ -198,6 +202,7 @@ void getWeatherDataz0() {
   DynamicJsonDocument doc(capacity);
   deserializeJson(doc, line);
   if (!doc.capacity()) {
+   
     if (printCom) Serial.println("          Parse weather forecast for tomorrow - FAILED!!!");
     updateForecasttomorrow++;
     if (updateForecast >= 360) weatherStringZ = "";
