@@ -20,8 +20,11 @@ void getWeatherData0() {
 
   HTTPClient http;
   String line = "";   //http://api.weatherbit.io/v2.0/forecast/daily?city=Dnipro&lang=uk&days=2&key=f872b893a4c842258c72f8226f46706e
-  String reqline = "http://" + weatherHost0 + "/v2.0/current/daily?city=" + urlencode(cityID0) + "&lang=" + weatherLang + "&key=" + weatherKey0;
-  if (printCom) {    Serial.println(reqline);  }
+  //String reqline = "http://" + weatherHost0 + "/v2.0/current/daily?city=" + urlencode(cityID0) + "&lang=" + weatherLang + "&key=" + weatherKey0;
+  String reqline = "http://" + weatherHost0 + "/v2.0/current/daily?lat=48.463730&lon=34.975109&lang=" + weatherLang + "&key=" + weatherKey0;
+  if (printCom) {   Serial.println("===========первый запроос начало сейчас ========================================================================================");   
+                    Serial.println(reqline); 
+                 }
   if (http.begin(ESPclient, reqline)) 
   { // HTTP
     int httpCode = http.GET();
@@ -116,8 +119,12 @@ void getWeatherDataz0() {
   //if(printCom) Serial.println("Getting weather forecast for tomorrow...");
   HTTPClient http;
   String line = "";
-  String reqline = "http://" + weatherHost0 + "/v2.0/forecast/daily?city=" + urlencode(cityID0) + "&lang=" + weatherLang + "&days=2&key=" + weatherKey0;
-  if (printCom) {    Serial.println("=======================================================");    Serial.println(reqline);    Serial.println("=======================================================");  }
+  //String reqline = "http://" + weatherHost0 + "/v2.0/forecast/daily?city=" + urlencode(cityID0) + "&lang=" + weatherLang + "&days=2&key=" + weatherKey0;
+  String reqline = "http://" + weatherHost0 + "/v2.0/forecast/daily?lat=48.463730&lon=34.975109&lang=" + weatherLang + "&days=2&key=" + weatherKey0;
+  if (printCom) { 
+       Serial.println(reqline);    
+       Serial.println("===========второй запроос на  два дня окончачнеие ========================================================================================");  
+      }
   if (http.begin(ESPclient, reqline)) { // HTTP
 
     int httpCode = http.GET();
@@ -164,8 +171,8 @@ void getWeatherDataz0() {
   if (hour < 12) weatherStringZ += "   " + String(data_0_min_temp, 1) + "...." + String(data_0_max_temp, 1) + "\202" + "C  "; //Если мень 12 то выдаем прогноз на сегодня
   if (hour < 18) weatherStringZ += "   " + String(data_0_weather_description); //+ "       ";  //после 12 и до 18 выводим сегодня только облочность, а прогноз не выводим уже, а после 18 выводим только сегоднишнюю  день недели дату и месяц
 
-  int sr = location_sunrise.substring(0, 2).toInt() + 3;  if(sr>23) sr -= 24;  if(sr<0) sr += 24;  String sunrise = String(sr) + location_sunrise.substring(2, 5);
-  int ss =  location_sunset.substring(0, 2).toInt() + 3;  if(ss>23) ss -= 24;  if(ss<0) ss += 24;  String sunset =  String(ss) +  location_sunset.substring(2, 5); 
+  int sr = location_sunrise.substring(0, 2).toInt() + 3;  if(sr>23) sr -= 24;  if(sr<0) sr += 24;  String sunrise = String(sr) + location_sunrise.substring(2, 5); //расвет восход
+  int ss =  location_sunset.substring(0, 2).toInt() + 3;  if(ss>23) ss -= 24;  if(ss<0) ss += 24;  String sunset =  String(ss) +  location_sunset.substring(2, 5); //закат
   //Serial.print(String (hourCorr));
   weatherStringZ +="  Расвет: " +sunrise+"  Закат: "+sunset;  weatherStringZ += "        ";         //чтобы уежала сторока  не стиралась
                                                                                                     //отображать погоду на завтра

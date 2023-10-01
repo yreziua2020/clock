@@ -325,8 +325,8 @@ byte del = 0;
 int updateOTA = 1;  //разрешашаем обновлять по сети
 bool displayForecast = true;    //Отображать погоду на экране
 bool displayCityName = false;   //выводить город
-bool displayForecastNow = true;
-bool displayForecastTomorrow = true;
+bool displayForecastNow = true;     //прогноз погоды на сейчас
+bool displayForecastTomorrow = true;  //прогноз погоды на завтра
 int updateForecast = 0;
 int updateForecasttomorrow = 0;
 float t0 = -85.0;         // температура в доме со знаком и плавающей запятой
@@ -697,20 +697,23 @@ void loop() {
     if (second == 46 && hour >= timeScrollStart && hour <= timeScrollStop && !alarm_stat)     //(minute % 5 == 1) && 
     {
     if (minute % 2 == 0 )  {dav_opros();kol_dav++; if(kol_dav>5) {kol_dav=0;}}
-    
+      Serial.println ("каждую 47 секуду"); 
      // if (minute == 1 || minute == 31 || updateForecast || updateForecasttomorrow ||updateKursPrivat) 
-      if (minute == 1  || updateForecast || updateForecasttomorrow ||updateKursPrivat) 
+      if (minute == 1  || updateForecast || updateForecasttomorrow )    //updateForecast -обновление погоды сейчас  обновление погоды на завтра
       {
         //if ((minute == 1 ||  minute == 31  ) && displayForecast)  
         if ((minute == 1 ) && displayForecast)  
         {
             /// dav_opros();kol_dav++; if(kol_dav>5) {kol_dav=0;}
-               
-          if (!weatherHost) {getWeatherData0();} else {getWeatherData1();   }                                  if (!weatherHost) {getWeatherDataz0(); } else {getWeatherDataz1();  }     
+           Serial.println ("Первый влет по погоде");      //влетает плвторно каждую минуту
+          if (!weatherHost) {getWeatherData0();} else {getWeatherData1();   }                                  
+          if (!weatherHost) {getWeatherDataz0(); } else {getWeatherDataz1();  }     
           } 
         else  
         {
-          if (updateForecast) { if (!weatherHost) {getWeatherData0();} else {getWeatherData1(); }  }  if (updateForecasttomorrow) {  if (!weatherHost) {getWeatherDataz0(); } else {getWeatherDataz1();} }     
+           Serial.println ("Второй влет по погоде");     
+          if (updateForecast) {          if (!weatherHost) {getWeatherData0();}   else {getWeatherData1();  }}  
+          if (updateForecasttomorrow) {  if (!weatherHost) {getWeatherDataz0(); } else {getWeatherDataz1();} }     
         }
       }
     }

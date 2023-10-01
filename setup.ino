@@ -66,7 +66,13 @@ for (int i = 0; i < 16; i++) {
     ArduinoOTA.onError([](ota_error_t error) {if (printCom) {Serial.printf("Error[%u]: ", error); if (error == OTA_AUTH_ERROR && printCom) Serial.println("Auth Failed"); else if (error == OTA_BEGIN_ERROR && printCom) Serial.println("Begin Failed"); else if (error == OTA_CONNECT_ERROR && printCom) Serial.println("Connect Failed");      else if (error == OTA_RECEIVE_ERROR && printCom) Serial.println("Receive Failed");      else if (error == OTA_END_ERROR && printCom) Serial.println("End Failed"); }     ESP.restart();    });
     ArduinoOTA.begin();
   }
-  if (WiFi.status() == WL_CONNECTED) {   if (displayForecast) {      if (!weatherHost) { getWeatherData0(); getWeatherDataz0(); } else {   getWeatherData1(); getWeatherDataz1();  }    }   }  //weatherHost -определяет с какого веб сайта отображать погоду
+  if (WiFi.status() == WL_CONNECTED) {   
+      //при старте если выбрано отображать погоду то обновляем погоду
+    if (displayForecast) {    
+       //**времено закоментировал чтобы не обновлять при старте***//по идеи обновиться в полный час плюс 1 минута 47 секунд//// 
+       if (!weatherHost) { getWeatherData0(); getWeatherDataz0(); } else {   getWeatherData1(); getWeatherDataz1();  }    
+     }   
+  }  //weatherHost -определяет с какого веб сайта отображать погоду
   
   
    // lightMeter.begin(BH1750::CONTINUOUS_HIGH_RES_MODE_2);  //Serial.println(F("BH1750 Test"));
