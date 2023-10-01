@@ -40,49 +40,17 @@ IRsend irsend(kIrLed);
 #endif
 
 #define _ZVUK    //чтобы звук отключить закоментровать
-#define _ip_adr      //без коментарии 102 если закоментировать то 103
+//#define _ip_adr      // непрнятно зачем  без коментарии 102 если закоментировать то 103
 
-#define _ipad 104
-#define _getv 199
+#define _ipad 104     //указываем адрес
+#define _getv 199     //указываем шлюз
 IPAddress local_IP(192, 168, 1, _ipad);// Задаем статический IP-адрес:
 IPAddress gateway(192, 168, 1, _getv);// Задаем IP-адрес сетевого шлюза:
 IPAddress primaryDNS(192, 168, 1, _getv);   // опционально
 
 String weatherHost0 = "api.weatherbit.io";
 
-/*
-#if   (_ip_adr==102)
-IPAddress local_IP(192, 168, 1, 102);// Задаем статический IP-адрес:
-IPAddress gateway(192, 168, 1, 199);// Задаем IP-адрес сетевого шлюза:
-IPAddress primaryDNS(192, 168, 1, 199);   // опционально
-#elif (_ip_adr==103)
-IPAddress local_IP(192, 168, 1, 103);// Задаем статический IP-адрес:
-IPAddress gateway(192, 168, 1, 199);// Задаем IP-адрес сетевого шлюза:
-IPAddress primaryDNS(192, 168, 1, 199);   // опционально
-#elif (_ip_adr==104)
-IPAddress local_IP(192, 168, 1, 104);// Задаем статический IP-адрес:
-IPAddress gateway(192, 168, 1, 199);// Задаем IP-адрес сетевого шлюза:
-IPAddress primaryDNS(192, 168, 1, 199);   // опционально
-#endif
-*/
-
-
-
-/*
-#ifdef _ip_adr==2
-IPAddress local_IP(192, 168, 1, 104);// Задаем статический IP-адрес:
-//String weatherHost0 = "15.235.118.222";  //надо 158.69.116.36
-String weatherHost0 = "api.weatherbit.io";
-#endif
-#ifdef _ip_adr==3
-IPAddress local_IP(192, 168, 1, 104);// Задаем статический IP-адрес:
-//String weatherHost0 = "15.235.118.222";  //надо 158.69.116.36
-String weatherHost0 = "api.weatherbit.io";
-#endif
-*/
-
 IPAddress subnet(255, 255, 255, 0);
-
 IPAddress secondaryDNS(8, 8, 8, 8); // опционально
 
 //#include <HTTPClient.h>
@@ -208,13 +176,15 @@ boolean weatherHost = 0;
 //String weatherHost0 = "15.235.118.221";  //надо 158.69.116.36
 String weatherHost1 = "api.openweathermap.org";
 
-#ifdef _ip_adr 
+//#ifdef _ip_adr 
 String weatherKey0  = "665466c1c88b4674992485ea92a2c8e6";
 //String weatherKey0
 String weatherKey1  = "11111111111111111111111111111111";
 String cityID0      = "Dnipro";
 String cityID1      = "709930"; 
 char personalCityName[51] = "Dnipro";
+
+/*
 #else 
 String weatherKey0  = "466b049f144f47e0a472cd2f07936497";
 String weatherKey1  = "11111111111111111111111111111111";
@@ -222,8 +192,10 @@ String cityID0      = "Hulyaypole";
 String cityID1      = "707898"; 
 char personalCityName[51] = "Hulyaypole";
 #endif
+*/
 
-String weatherLang = "ru";                                                             // Мова отримання прогнозу погоди
+//String weatherLang = "ru";                                                             // Мова отримання прогнозу погоди
+String weatherLang = "ua";
 String location_name = "";
 String location_region = "";
 String location_country = "";
@@ -421,7 +393,7 @@ byte sensorUl =0;           //NONE = 0, DS18B20 = 1, Si7021 = 2, BMP280 = 3, BME
 byte sensorHome = 0;         //NONE = 0, DS18B20 = 1, Si7021 = 2, BMP280 = 3, BME280 = 4, DHT = 5, MQTT1 = 6, MQTT2 = 7, MQTT3 = 8, NMon = 9;
 byte sensorHumi = 0;         //NONE = 0, NONE    = 1, Si7021 = 2, NONE   = 3, BME280 = 4, DHT = 5,  NONE = 6;
 byte sensorPrAl = 3;         //NONE = 0, NONE    = 1, NONE   = 2, BMP280 = 3, BME280 = 4, NONE = 5, NONE = 6;
-String tMes, tNow, tCurr, tPress, tPress0, tSpeed, tMin, tTom, tYour, tPoint, tIp, tPass, tWeatrNot, tWeatrTN;
+String tMes, tNow, tCurr, tPress, tPress0, tSpeed, tMin, tTom, tYour, tPoint, tIp, tPass, tWeatrNot, tWeatrTN;  //нет обновление погодв
 bool alarm_stat = 0;
 bool alarm_hold = 0;  //для кноки зачемто
 byte alarm_numer = 255;
@@ -605,12 +577,12 @@ void loop() {
  
   if (_ipad==103) {
       if (hour == 6) {
-        if (minute == 10 ){if (one_f1==0) {one_f1=1;}      }  else  {one_f1=0;}    /*printStringWithShift(("       22:55 \200\200\200 " + tMes + " \200\200\200").c_str(), timeScrollSpeed);     return;*/ 
+        if (minute == 5 ){if (one_f1==0) {one_f1=1;}      }  else  {one_f1=0;}    /*printStringWithShift(("       22:55 \200\200\200 " + tMes + " \200\200\200").c_str(), timeScrollSpeed);     return;*/ 
         if (minute == 10 ){if (one_f2==0) {one_f2=1;}      }  else  {one_f2=0;}    /*printStringWithShift(("       22:55 \200\200\200 " + tMes + " \200\200\200").c_str(), timeScrollSpeed);     return;*/ 
-        if (minute == 10 ){if (one_f3==0) {one_f3=1;}      }  else  {one_f3=0;}    /*printStringWithShift(("       22:55 \200\200\200 " + tMes + " \200\200\200").c_str(), timeScrollSpeed);     return;*/ 
-        if (minute == 10 ){if (one_f4==0) {one_f4=1;}      }  else  {one_f4=0;}    /*printStringWithShift(("       22:55 \200\200\200 " + tMes + " \200\200\200").c_str(), timeScrollSpeed);     return;*/ 
-        if (minute == 20 ){if (one_f5==0) {one_f5=1;}      }  else  {one_f5=0;}
-        if (minute == 25 ){if (one_f6==0) {one_f6=1;}      }  else  {one_f6=0;}
+        if (minute == 15 ){if (one_f3==0) {one_f3=1;}      }  else  {one_f3=0;}    /*printStringWithShift(("       22:55 \200\200\200 " + tMes + " \200\200\200").c_str(), timeScrollSpeed);     return;*/ 
+        if (minute == 20 ){if (one_f4==0) {one_f4=1;}      }  else  {one_f4=0;}    /*printStringWithShift(("       22:55 \200\200\200 " + tMes + " \200\200\200").c_str(), timeScrollSpeed);     return;*/ 
+        if (minute == 25 ){if (one_f5==0) {one_f5=1;}      }  else  {one_f5=0;}
+        if (minute == 27 ){if (one_f6==0) {one_f6=1;}      }  else  {one_f6=0;}
         if (minute == 30 ){if (one_f7==0) {one_f7=1;}      }  else  {one_f7=0;}
       }
   }
@@ -790,4 +762,4 @@ String chr_to_str(String str) {   String chr_to_str = "";  for (int i = 0; i < s
 
 //--------------------------Язык---------------------------
 void lang() {if(weatherLang=="ru") {tNow="Сейчас"; tPress0="гПа"; tPress="мР"; tSpeed="м/с"; tMin="м."; tCurr="Сегодня"; tTom="Завтра"; tYour="Ваш"; tIp="и введите в браузере адрес"; tPass="пароль";
-tWeatrNot=" Нет обновления погоды более 6 часов!!!   "; tWeatrTN="нет об.пог.-";  } }
+tWeatrNot=" Нет обновления погоды более 6 часов!!!   "; tWeatrTN=".-";  } }   ///tWeatrTN="нет об.пог.-";

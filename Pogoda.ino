@@ -23,6 +23,7 @@ void getWeatherData0() {
     if (httpCode > 0) 
     {  //printStringWithShift("Yes2 ", 25); 
       if (printCom) {Serial.printf("[HTTP] GET... code: %d\n", httpCode);}  if (httpCode == HTTP_CODE_OK || httpCode == HTTP_CODE_MOVED_PERMANENTLY) {  line = http.getString();  }
+      if(httpCode==403) { Serial.println ("Доступ к серверу запрещен");}
     } else
     {  //printStringWithShift("No2 ", 25); 
        if (printCom){Serial.printf("[HTTP] GET... failed, error: %s\n", http.errorToString(httpCode).c_str());}    
@@ -51,7 +52,8 @@ void getWeatherData0() {
   
   if (location_pres==0) 
   {
-    String wr_pog= "Давление"+String(location_pres);  printStringWithShift(wr_pog.c_str(), 25);
+    //weatherKey0="fd23044904f240e59003e405bc87cd54";
+    //String wr_pog= "Давление"+String(location_pres);  printStringWithShift(wr_pog.c_str(), 25);
     String wr_pog2=String(weatherKey0);   printStringWithShift(wr_pog2.c_str(), 25);  
     delay(1000);
     Serial.println("          Parse weather forecast - FAILED!!!"); updateForecast++; if (updateForecast >= 360) weatherString = tWeatrNot;  return; 
