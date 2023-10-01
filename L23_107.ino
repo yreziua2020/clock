@@ -35,7 +35,7 @@ const short UserID=3;
 
 
 #ifdef _ip_adr 
-IPAddress local_IP(192, 168, 1, 102);// Задаем статический IP-адрес:
+IPAddress local_IP(192, 168, 1, 104);// Задаем статический IP-адрес:
 //String weatherHost0 = "15.235.118.222";  //надо 158.69.116.36
 String weatherHost0 = "api.weatherbit.io";
 #else 
