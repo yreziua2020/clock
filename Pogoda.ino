@@ -4,26 +4,35 @@
 void getWeatherData0() {
   location_name = "";  location_region = "";  location_country = "";  location_localtime = "";  location_temp = 0;  location_app_temp = 0;  location_rh = 0;  location_pres = 0;  location_wind_spd = 0;  location_wind_cdir_full = "";  location_sunrise = "";  location_sunset = "";  location_clouds = 0;  location_vis = 0;  location_uv = 0;  location_weather_description = "";
   if (!WIFI_connected) {    updateForecast++;    if (updateForecast >= 360) weatherString = tWeatrNot;    return;  }   if (printCom) {    printTime();    Serial.println("Getting weather forecast for City " +  cityID0 + "...");  }  //печать в каом порт если разрешена
- 
-  //****//
   
    WiFi.hostByName(weatherHost0.c_str(), pogodaIP);
   // if(WiFi.hostByName(weatherHost0.c_str(), pogodaIP)){printStringWithShift("ok ", 25);} else  {printStringWithShift("no ", 25);} 
    //Serial.print("pogodaIP ="); Serial.println(pogodaIP); 
   //if (ESPclient.connect(weatherHost0.c_str(), 80)) {
-  if (ESPclient.connect(pogodaIP, 80)) {//Serial.println("conect yas");
-  } else {  if (printCom) Serial.println("          Not connection server!!!"); updateForecast++;  if (updateForecast >= 360) weatherString = tWeatrNot;   return;  }
+  if (ESPclient.connect(pogodaIP, 80)) 
+  {
+     if (printCom) { Serial.println("conect yas");}
+  } 
+  else 
+  { 
+     if (printCom) Serial.println("  Not connection server!!!"); updateForecast++;  if (updateForecast >= 360) weatherString = tWeatrNot;   return;  
+  }
 
   HTTPClient http;
-  String line = "";  String reqline = "http://" + weatherHost0 + "/v2.0/current/daily?city=" + urlencode(cityID0) + "&lang=" + weatherLang + "&key=" + weatherKey0;
-  if (printCom) {    Serial.println("=======================================================");    Serial.println(reqline);    Serial.println("=======================================================");  }
+  String line = "";   //http://api.weatherbit.io/v2.0/forecast/daily?city=Dnipro&lang=uk&days=2&key=f872b893a4c842258c72f8226f46706e
+  String reqline = "http://" + weatherHost0 + "/v2.0/current/daily?city=" + urlencode(cityID0) + "&lang=" + weatherLang + "&key=" + weatherKey0;
+  if (printCom) {    Serial.println(reqline);  }
   if (http.begin(ESPclient, reqline)) 
   { // HTTP
     int httpCode = http.GET();
     if (httpCode > 0) 
     {  //printStringWithShift("Yes2 ", 25); 
-      if (printCom) {Serial.printf("[HTTP] GET... code: %d\n", httpCode);}  if (httpCode == HTTP_CODE_OK || httpCode == HTTP_CODE_MOVED_PERMANENTLY) {  line = http.getString();  }
-      if(httpCode==403) { Serial.println ("Доступ к серверу запрещен");}
+      if(httpCode==403) { 
+      Serial.println ("Доступ к серверу запрещен"); 
+      //Serial.println("Error 403!!!"); updateForecast++; if (updateForecast >= 360) weatherString = tWeatrNot;  return; 
+      }
+      if (printCom) {Serial.printf("[HTTP] GET... code: %d\n", httpCode);}  
+      if (httpCode == HTTP_CODE_OK || httpCode == HTTP_CODE_MOVED_PERMANENTLY) {  line = http.getString();  }
     } else
     {  //printStringWithShift("No2 ", 25); 
        if (printCom){Serial.printf("[HTTP] GET... failed, error: %s\n", http.errorToString(httpCode).c_str());}    
@@ -46,19 +55,6 @@ void getWeatherData0() {
   JsonObject data = doc["data"][0];
   location_rh = data["rh"];                       //Влажность   
   location_pres = data["pres"];                    //давление 999.3
-  //String wr_pog= "Давление"+String(location_pres);  printStringWithShift(wr_pog.c_str(), 25);
-  //delay(1000);
-  //String wr_pog2=String(weatherKey0);   printStringWithShift(wr_pog2.c_str(), 25);  
-  
-  if (location_pres==0) 
-  {
-    //weatherKey0="fd23044904f240e59003e405bc87cd54";
-    //String wr_pog= "Давление"+String(location_pres);  printStringWithShift(wr_pog.c_str(), 25);
-    String wr_pog2=String(weatherKey0);   printStringWithShift(wr_pog2.c_str(), 25);  
-    delay(1000);
-    Serial.println("          Parse weather forecast - FAILED!!!"); updateForecast++; if (updateForecast >= 360) weatherString = tWeatrNot;  return; 
-  }
-  /////if (pressSys == 1) location_pres /= 1.3332239; //если флаг установлен то делим давление чтобы разных измирениях выводить
   location_pres /= 1.3332239; //временно чтобы при преключении не мнялся вывод
   const char* data_timezone = data["timezone"]; // "Europe/Kiev"
   location_region = data_timezone;                        //регион
@@ -110,79 +106,7 @@ void getWeatherData0() {
   }
   updateForecast = 0;
 }
-//===============================================================================================================================//
-//                              БЕРЕМО ПОГОДУ З САЙТУ  openweathermap.org                                                     //
-//===============================================================================================================================//
-void getWeatherData1() {
-  location_name = ""; location_region = ""; location_country = ""; location_localtime = "";       location_temp = 0;       location_app_temp = 0;  location_rh = 0;    location_pres = 0; 
-  location_wind_spd = 0;  location_wind_cdir_full = "";  location_sunrise = "";  location_sunset = "";  location_clouds = 0;  location_vis = 0;  location_uv = 0;  location_weather_description = "";  
-  if (!WIFI_connected) {    updateForecast++;    if (updateForecast >= 360) weatherString = tWeatrNot;    return;  }  if (printCom) {    printTime();  Serial.println("Getting weather forecast for City " +  cityID1 + "...");  }
-  if (ESPclient.connect(weatherHost1.c_str(), 80))  {  } else {  if (printCom) Serial.println("          Not connection server!!!"); updateForecast++;  if (updateForecast >= 360) weatherString = tWeatrNot;  return;  }
- 
-  HTTPClient http;
-  String line = "";  String reqline = "http://" + weatherHost1 + "/data/2.5/weather?id=" + urlencode(cityID1) + "&lang=" + weatherLang + "&units=metric&appid=" + weatherKey1;
-  if (printCom) {    Serial.println("=======================================================");    Serial.println(reqline);    Serial.println("=======================================================");  }
-  if (http.begin(ESPclient, reqline)) { // HTTP
 
-    int httpCode = http.GET();
-    if (httpCode > 0) {
-      if (printCom) {Serial.printf("[HTTP] GET... code: %d\n", httpCode);}
-      if (httpCode == HTTP_CODE_OK || httpCode == HTTP_CODE_MOVED_PERMANENTLY) {        line = http.getString();      }
-    } else { if (printCom){Serial.printf("[HTTP] GET... failed, error: %s\n", http.errorToString(httpCode).c_str());}  }
-    http.end();
-  } else {   if (printCom){Serial.printf("[HTTP} Unable to connect\n");}  }
-  
-  if (printCom) {    Serial.print("line =");    Serial.println(line);  }
-  const size_t capacity = JSON_ARRAY_SIZE(1) + JSON_OBJECT_SIZE(1) + 2 * JSON_OBJECT_SIZE(2) + JSON_OBJECT_SIZE(4) + 2 * JSON_OBJECT_SIZE(5) + JSON_OBJECT_SIZE(13) + 751; //https://arduinojson.org/v6/assistant/
-  DynamicJsonDocument doc(capacity);
-  deserializeJson(doc, line);
-  if (!doc.capacity()) {
-    if (printCom) Serial.println("          Parse weather forecast - FAILED!!!");
-    updateForecast++;
-    if (updateForecast >= 360) weatherString = tWeatrNot;
-    return;
-  }
-  JsonObject weather_0 = doc["weather"][0];
-  const char*   data_weather_description = weather_0["description"]; // "fog"
-  location_weather_description = data_weather_description;
-  JsonObject main = doc["main"];
-  location_temp = main["temp"]; // 10.34
-  location_pres = main["pressure"]; // 1023
-  if (pressSys == 1) location_pres /= 1.3332239;
-  location_rh = main["humidity"]; // 100
-  float location_temp_min = main["temp_min"]; // 7
-  float location_temp_max = main["temp_max"]; // 12.22
-  location_vis = doc["visibility"]; // 1000
-  location_vis /= 1000;
-  location_wind_spd = doc["wind"]["speed"]; // 1
-  int data_wind_dir = doc["wind"]["deg"]; // 230
-  location_clouds = doc["clouds"]["all"]; // 20
-  JsonObject sys = doc["sys"];
-  const char* data_country_code = sys["country"]; // "UA"
-  location_country = data_country_code;
-  const char*   data_city_name = doc["name"]; // "Kyiv"
-  location_name = data_city_name;
-  if (location_name == "Frankfurt am Main") location_name = "Франкфурт на Майні";
-  String windDegString;
-  if (data_wind_dir >= 345 || data_wind_dir <= 22)  windDegString = "\211 Северный ";   //"Північний";
-  if (data_wind_dir >= 23  && data_wind_dir <= 68)  windDegString = "\234 Северо-Восточный  ";   //"Північно-східний";
-  if (data_wind_dir >= 69  && data_wind_dir <= 114) windDegString = "\230 Восточный ";   //"Східний";
-  if (data_wind_dir >= 115 && data_wind_dir <= 160) windDegString = "\235 Южно-Восточный ";   //"Південно-східний";
-  if (data_wind_dir >= 161 && data_wind_dir <= 206) windDegString = "\210 Южный ";   //"Південний";
-  if (data_wind_dir >= 207 && data_wind_dir <= 252) windDegString = "\232 Южно-Западный ";   //"Південно-західний";
-  if (data_wind_dir >= 253 && data_wind_dir <= 298) windDegString = "\231 Западный ";   //"Західний";
-  if (data_wind_dir >= 299 && data_wind_dir <= 344) windDegString = "\233 Северо-Западный ";   //"Північно-західний";
-  weatherString = "        ";
-  if (displayCityName) {  String PCN = personalCityName; if (PCN.length() > 0) weatherString += PCN; else weatherString += String(location_name); weatherString += ", ";  }
-  if (displayForecastNow) {
-    weatherString += "Сейчас:** " + String(location_temp, 1) + " (" + String(location_temp_min, 1) + "..." + String(location_temp_max, 1) + ")" + ("\202") + "C";  //------------------------------------------------------
-    weatherString += "     \213 " + String(location_rh) + "%";
-    weatherString += "     \215 " + String((location_pres), 0) + (pressSys == 1 ? tPress : tPress0) ;
-    weatherString += "     \214 " + windDegString + String(location_wind_spd, 1) + tSpeed;
-    weatherString += "     \216 " + String(location_clouds) + "%     " + data_weather_description + "                ";
-  }
-  updateForecast = 0;
-}
 // ============================================================================//
 //               Беремо ПРОГНОЗ!!! погоди з сайту https://www.weatherbit.io     //
 // ============================================================================//
@@ -257,6 +181,80 @@ void getWeatherDataz0() {
    
   updateForecasttomorrow = 0;
 }
+//===============================================================================================================================//
+//                              БЕРЕМО ПОГОДУ З САЙТУ  openweathermap.org                                                     //
+//===============================================================================================================================//
+void getWeatherData1() {
+  location_name = ""; location_region = ""; location_country = ""; location_localtime = "";       location_temp = 0;       location_app_temp = 0;  location_rh = 0;    location_pres = 0; 
+  location_wind_spd = 0;  location_wind_cdir_full = "";  location_sunrise = "";  location_sunset = "";  location_clouds = 0;  location_vis = 0;  location_uv = 0;  location_weather_description = "";  
+  if (!WIFI_connected) {    updateForecast++;    if (updateForecast >= 360) weatherString = tWeatrNot;    return;  }  if (printCom) {    printTime();  Serial.println("Getting weather forecast for City " +  cityID1 + "...");  }
+  if (ESPclient.connect(weatherHost1.c_str(), 80))  {  } else {  if (printCom) Serial.println("          Not connection server!!!"); updateForecast++;  if (updateForecast >= 360) weatherString = tWeatrNot;  return;  }
+ 
+  HTTPClient http;
+  String line = "";  String reqline = "http://" + weatherHost1 + "/data/2.5/weather?id=" + urlencode(cityID1) + "&lang=" + weatherLang + "&units=metric&appid=" + weatherKey1;
+  if (printCom) {    Serial.println("=======================================================");    Serial.println(reqline);    Serial.println("=======================================================");  }
+  if (http.begin(ESPclient, reqline)) { // HTTP
+
+    int httpCode = http.GET();
+    if (httpCode > 0) {
+      if (printCom) {Serial.printf("[HTTP] GET... code: %d\n", httpCode);}
+      if (httpCode == HTTP_CODE_OK || httpCode == HTTP_CODE_MOVED_PERMANENTLY) {        line = http.getString();      }
+    } else { if (printCom){Serial.printf("[HTTP] GET... failed, error: %s\n", http.errorToString(httpCode).c_str());}  }
+    http.end();
+  } else {   if (printCom){Serial.printf("[HTTP} Unable to connect\n");}  }
+  
+  if (printCom) {    Serial.print("line =");    Serial.println(line);  }
+  const size_t capacity = JSON_ARRAY_SIZE(1) + JSON_OBJECT_SIZE(1) + 2 * JSON_OBJECT_SIZE(2) + JSON_OBJECT_SIZE(4) + 2 * JSON_OBJECT_SIZE(5) + JSON_OBJECT_SIZE(13) + 751; //https://arduinojson.org/v6/assistant/
+  DynamicJsonDocument doc(capacity);
+  deserializeJson(doc, line);
+  if (!doc.capacity()) {
+    if (printCom) Serial.println("          Parse weather forecast - FAILED!!!");
+    updateForecast++;
+    if (updateForecast >= 360) weatherString = tWeatrNot;
+    return;
+  }
+  JsonObject weather_0 = doc["weather"][0];
+  const char*   data_weather_description = weather_0["description"]; // "fog"
+  location_weather_description = data_weather_description;
+  JsonObject main = doc["main"];
+  location_temp = main["temp"]; // 10.34
+  location_pres = main["pressure"]; // 1023
+  if (pressSys == 1) location_pres /= 1.3332239;
+  location_rh = main["humidity"]; // 100
+  float location_temp_min = main["temp_min"]; // 7
+  float location_temp_max = main["temp_max"]; // 12.22
+  location_vis = doc["visibility"]; // 1000
+  location_vis /= 1000;
+  location_wind_spd = doc["wind"]["speed"]; // 1
+  int data_wind_dir = doc["wind"]["deg"]; // 230
+  location_clouds = doc["clouds"]["all"]; // 20
+  JsonObject sys = doc["sys"];
+  const char* data_country_code = sys["country"]; // "UA"
+  location_country = data_country_code;
+  const char*   data_city_name = doc["name"]; // "Kyiv"
+  location_name = data_city_name;
+  if (location_name == "Frankfurt am Main") location_name = "Франкфурт на Майні";
+  String windDegString;
+  if (data_wind_dir >= 345 || data_wind_dir <= 22)  windDegString = "\211 Северный ";   //"Північний";
+  if (data_wind_dir >= 23  && data_wind_dir <= 68)  windDegString = "\234 Северо-Восточный  ";   //"Північно-східний";
+  if (data_wind_dir >= 69  && data_wind_dir <= 114) windDegString = "\230 Восточный ";   //"Східний";
+  if (data_wind_dir >= 115 && data_wind_dir <= 160) windDegString = "\235 Южно-Восточный ";   //"Південно-східний";
+  if (data_wind_dir >= 161 && data_wind_dir <= 206) windDegString = "\210 Южный ";   //"Південний";
+  if (data_wind_dir >= 207 && data_wind_dir <= 252) windDegString = "\232 Южно-Западный ";   //"Південно-західний";
+  if (data_wind_dir >= 253 && data_wind_dir <= 298) windDegString = "\231 Западный ";   //"Західний";
+  if (data_wind_dir >= 299 && data_wind_dir <= 344) windDegString = "\233 Северо-Западный ";   //"Північно-західний";
+  weatherString = "        ";
+  if (displayCityName) {  String PCN = personalCityName; if (PCN.length() > 0) weatherString += PCN; else weatherString += String(location_name); weatherString += ", ";  }
+  if (displayForecastNow) {
+    weatherString += "Сейчас:** " + String(location_temp, 1) + " (" + String(location_temp_min, 1) + "..." + String(location_temp_max, 1) + ")" + ("\202") + "C";  //------------------------------------------------------
+    weatherString += "     \213 " + String(location_rh) + "%";
+    weatherString += "     \215 " + String((location_pres), 0) + (pressSys == 1 ? tPress : tPress0) ;
+    weatherString += "     \214 " + windDegString + String(location_wind_spd, 1) + tSpeed;
+    weatherString += "     \216 " + String(location_clouds) + "%     " + data_weather_description + "                ";
+  }
+  updateForecast = 0;
+}
+
 // =======================================================================//
 //               Беремо ПРОГНОЗ!!! погоди з сайту openweathermap.org      //
 // =======================================================================//
