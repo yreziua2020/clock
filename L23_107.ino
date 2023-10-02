@@ -43,7 +43,7 @@ IRsend irsend(kIrLed);
 //#define _ip_adr      // непрнятно зачем  без коментарии 102 если закоментировать то 103
 
 #define _ipad 104     //указываем адрес
-#define _getv 199     //указываем шлюз
+#define _getv 41     //указываем шлюз
 IPAddress local_IP(192, 168, 1, _ipad);// Задаем статический IP-адрес:
 IPAddress gateway(192, 168, 1, _getv);// Задаем IP-адрес сетевого шлюза:
 IPAddress primaryDNS(192, 168, 1, _getv);   // опционально
