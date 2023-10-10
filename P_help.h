@@ -66,11 +66,10 @@ const char P_help[] PROGMEM =  R"=====(
 
                    <form method="POST" action="/updataa" enctype="multipart/form-data">
                         <div>
-                            <input type="file"  name="update" style="height: 33px;">
-                            <input type="submit" class="save_booton" value="dload" onclick="this.value=' wait...';">
+                             <input type="submit" class="save_booton" value="dload" onclick="this.value=' wait...';">
                         </div>
                     </form>
-
+                      <button type="button" class="button">Click me!</button>
                 </div>
             </center>
             <div class="menu_unit">
